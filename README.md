@@ -20,7 +20,7 @@ The experimental pipeline is organized into three phases, designed so that each 
 ### Phase 1: Representation Experiments
 
 
-This phase uses only 1–2 fast, stable models (Logistic Regression and Random Forest) to isolate the effect of *how the audio is represented*, before introducing model complexity. The goal is to lock in the best temporal segmentation and feature set before running the full model comparison.
+This phase uses only 1–2 fast, stable models (Logistic Regression and Random Forest) to isolate the effect of how the audio is represented, before introducing model complexity. The goal is to lock in the best temporal segmentation and feature set before running the full model comparison.
 
 #### Test 1: Temporal Representation
 
@@ -33,13 +33,12 @@ Determines the best way to segment audio clips in time. The same model (Logistic
 | 2s windows | Audio split into 2-second segments with overlap |
 | 1s windows | Audio split into 1-second segments with overlap |
 
-Shorter windows capture more localized emotional cues, but if they're too short, there may not be enough acoustic context for the model to work with.
 
 **Output per condition:** Mean accuracy, std accuracy, mean F1, std F1, precision, recall (across all LOOCV folds and total), plus an 8×8 confusion matrix aggregated across folds.
 
 #### Test 2: Feature Group Importance
 
-Using the best segmentation from Test 1, this test determines which *groups* of acoustic features matter most. Logistic Regression is run four times, each time using only one feature group (or all of them):
+Using the best segmentation from Test 1, this test determines which groups of acoustic features matter most. Logistic Regression is run four times, each time using only one feature group (or all of them):
 
 | Condition | Features included |
 |---|---|
@@ -114,7 +113,7 @@ RAVDESS includes both low-intensity and high-intensity versions of each emotion 
 
 #### Test 5: Final Representation Confirmation
 
-A final sanity check that revisits the representation question from Phase 1, but now using the best-performing models from Phase 2 instead of just Logistic Regression. This confirms (or challenges) whether the optimal segmentation holds across model types.
+Revisits the representation question from Phase 1, but now using the best-performing models from Phase 2 instead of just Logistic Regression. This confirms (or challenges) whether the optimal segmentation holds across model types.
 
 Conditions: sentence-level vs. word-level vs. windowed segmentation, tested with the best classical model and the best neural model.
 
@@ -124,7 +123,7 @@ Conditions: sentence-level vs. word-level vs. windowed segmentation, tested with
 
 ## Evaluation
 
-All experiments use **Leave-One-Speaker-Out Cross-Validation (LOOCV)**. In each fold, one of the 12 actors is held out as the test set, and the model trains on the remaining 11. This simulates a real-world scenario where the model encounters a speaker it has never heard before, preventing it from memorizing speaker-specific quirks instead of learning generalizable emotion cues.
+All experiments use Leave-One-Speaker-Out Cross-Validation (LOOCV). In each fold, one of the 12 actors is held out as the test set, and the model trains on the remaining 11. This simulates a real-world scenario where the model encounters a speaker it has never heard before, preventing it from memorizing speaker-specific quirks instead of learning generalizable emotion cues.
 
 Feature standardization (zero mean, unit variance) is always computed from the training fold only and then applied to the test fold, preventing data leakage.
 
@@ -146,7 +145,7 @@ The full feature vector contains 41 dimensions:
 
 ## Dataset
 
-**RAVDESS** — Ryerson Audio-Visual Database of Emotional Speech and Song
+**RAVDESS**: Ryerson Audio-Visual Database of Emotional Speech and Song
 
 This study uses the **male speech subset** (12 actors). Each actor recorded two sentences across 8 emotions (Neutral, Calm, Happy, Sad, Angry, Fearful, Disgust, Surprised), with low- and high-intensity variants for all emotions except Neutral.
 
